@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ワールド・ディベート・アリーナ</title>
+    <title>World Debate Cafe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body { font-family: 'M PLUS Rounded 1c', sans-serif; }
         /* カスタムスクロールバー */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1f2937; }
-        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        ::-webkit-scrollbar-track { background: #fdf2f8; }
+        ::-webkit-scrollbar-thumb { background: #fbcfe8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f472b6; }
 
         /* フェードインアニメーション */
         @keyframes fadeIn {
@@ -44,13 +46,14 @@
             gap: 10px;
         }
         .toast {
-            background: rgba(16, 185, 129, 0.9);
+            background: rgba(244, 114, 182, 0.95);
             color: white;
             padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             animation: fadeIn 0.3s ease-out forwards, fadeOut 0.3s ease-in forwards 2.7s;
             opacity: 0;
+            font-weight: bold;
         }
         @keyframes fadeOut {
             from { opacity: 1; }
@@ -58,24 +61,24 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 h-screen flex flex-col overflow-hidden font-sans">
+<body class="bg-pink-50 text-gray-800 h-screen flex flex-col overflow-hidden">
 
     <!-- ナビゲーションバー -->
-    <header class="bg-gray-800 border-b border-gray-700 p-4 flex justify-between items-center shadow-md shrink-0">
+    <header class="bg-white border-b border-pink-200 p-4 flex justify-between items-center shadow-sm shrink-0">
         <div class="flex items-center gap-3">
-            <div class="bg-blue-600 p-2 rounded-lg text-white">
-                <i class="fa-solid fa-globe text-xl"></i>
+            <div class="bg-pink-400 p-2 rounded-full text-white shadow-sm">
+                <i class="fa-solid fa-mug-hot text-xl"></i>
             </div>
-            <h1 class="text-xl font-bold tracking-wider hidden sm:block">World Debate Arena</h1>
+            <h1 class="text-xl font-bold text-pink-500 tracking-wider hidden sm:block">World Debate Cafe</h1>
         </div>
         <div class="flex items-center gap-6">
             <div class="text-right">
-                <div class="text-xs text-gray-400 uppercase tracking-wide">あなたの影響力</div>
-                <div class="text-lg font-bold text-blue-400" id="score-display">0 INF</div>
+                <div class="text-xs text-pink-400 font-bold uppercase tracking-wide">スマイルポイント</div>
+                <div class="text-lg font-bold text-pink-600" id="score-display">0 ✨</div>
             </div>
             <div class="text-right">
-                <div class="text-xs text-gray-400 uppercase tracking-wide">ランク</div>
-                <div class="text-lg font-bold text-yellow-400" id="rank-display">ルーキー</div>
+                <div class="text-xs text-orange-400 font-bold uppercase tracking-wide">称号</div>
+                <div class="text-lg font-bold text-orange-500" id="rank-display">おためしさん</div>
             </div>
         </div>
     </header>
@@ -84,63 +87,63 @@
     <main class="flex-1 flex flex-col md:flex-row overflow-hidden">
         
         <!-- サイドバー：ニュースフィード -->
-        <aside class="w-full md:w-1/3 lg:w-1/4 bg-gray-800 border-r border-gray-700 flex flex-col shrink-0 md:h-full h-1/3 border-b md:border-b-0">
-            <div class="p-4 border-b border-gray-700 bg-gray-800/50">
-                <h2 class="text-sm font-semibold text-gray-300 uppercase tracking-wider"><i class="fa-regular fa-newspaper mr-2"></i>討論トピック</h2>
+        <aside class="w-full md:w-1/3 lg:w-1/4 bg-pink-50 border-r border-pink-200 flex flex-col shrink-0 md:h-full h-1/3 border-b md:border-b-0">
+            <div class="p-4 border-b border-pink-200 bg-pink-100/50">
+                <h2 class="text-sm font-bold text-pink-600 uppercase tracking-wider"><i class="fa-solid fa-comments mr-2"></i>おしゃべりトピック</h2>
             </div>
-            <div class="flex-1 overflow-y-auto p-2 space-y-2" id="topic-list">
+            <div class="flex-1 overflow-y-auto p-3 space-y-3" id="topic-list">
                 <!-- トピックリストがここにJSで生成される -->
             </div>
         </aside>
 
         <!-- ディベートエリア -->
-        <section class="flex-1 flex flex-col bg-gray-900 relative">
+        <section class="flex-1 flex flex-col bg-white relative">
             
             <!-- トピックヘッダー -->
-            <div class="p-4 md:p-6 border-b border-gray-800 bg-gray-900 shrink-0">
+            <div class="p-4 md:p-6 border-b border-pink-100 bg-white shrink-0 shadow-sm z-10">
                 <div class="flex justify-between items-start mb-2">
-                    <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-1 rounded font-semibold" id="topic-category">テクノロジー</span>
-                    <span class="text-xs text-gray-500" id="topic-source">Global News Network</span>
+                    <span class="bg-pink-100 text-pink-600 text-xs px-3 py-1 rounded-full font-bold shadow-sm" id="topic-category">おかし・スイーツ</span>
+                    <span class="text-xs text-gray-400 font-bold" id="topic-source">カフェのマスターより</span>
                 </div>
-                <h2 class="text-xl md:text-2xl font-bold mb-2 leading-tight" id="topic-title">AIの進化により、今後10年で人類の仕事の半分が消滅する？</h2>
-                <p class="text-sm text-gray-400 mb-4" id="topic-summary">最新のレポートによると、生成AIの進化により世界規模で大規模な雇用シフトが起きる可能性が指摘されています。これについてどう考えますか？</p>
+                <h2 class="text-xl md:text-2xl font-bold mb-2 leading-tight text-gray-800" id="topic-title">きのこの山 vs たけのこの里、永遠のライバル対決！</h2>
+                <p class="text-sm text-gray-600 mb-4" id="topic-summary">チョコレートとビスケットの絶妙なハーモニー。あなたはどっち派ですか？それぞれの魅力を存分に語り合いましょう！</p>
                 
-                <!-- 追加: 参考資料セクション -->
-                <div class="bg-gray-800/80 rounded-lg p-3 border border-gray-700">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-book-open mr-1"></i> 参考資料</h3>
-                    <ul class="text-sm space-y-2" id="topic-references">
+                <!-- 参考資料セクション -->
+                <div class="bg-yellow-50 rounded-xl p-3 border border-yellow-200 shadow-sm">
+                    <h3 class="text-xs font-bold text-yellow-600 uppercase tracking-wider mb-2"><i class="fa-solid fa-lightbulb mr-1"></i> ヒント・参考サイト</h3>
+                    <ul class="text-sm space-y-2 text-gray-600" id="topic-references">
                         <!-- 資料リストがここに生成される -->
                     </ul>
                 </div>
             </div>
 
             <!-- チャットエリア -->
-            <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6" id="chat-container">
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-pink-50/30" id="chat-container">
                 <!-- メッセージがここに生成される -->
             </div>
 
             <!-- タイピングインジケーター（隠し） -->
-            <div id="typing-indicator" class="hidden px-6 pb-2 text-sm text-gray-500 flex items-center gap-2">
-                <i class="fa-solid fa-robot"></i> 誰かが入力中...
+            <div id="typing-indicator" class="hidden px-6 pb-2 text-sm text-pink-400 flex items-center gap-2 font-bold mt-2">
+                <i class="fa-solid fa-paw"></i> 常連さんが入力中...
                 <div class="flex gap-1 ml-1">
-                    <div class="w-1.5 h-1.5 bg-gray-500 rounded-full typing-dot"></div>
-                    <div class="w-1.5 h-1.5 bg-gray-500 rounded-full typing-dot"></div>
-                    <div class="w-1.5 h-1.5 bg-gray-500 rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 bg-pink-400 rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 bg-pink-400 rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 bg-pink-400 rounded-full typing-dot"></div>
                 </div>
             </div>
 
             <!-- 入力エリア -->
-            <div class="p-4 bg-gray-800 border-t border-gray-700 shrink-0">
+            <div class="p-4 bg-pink-50 border-t border-pink-200 shrink-0">
                 <div class="max-w-4xl mx-auto flex flex-col gap-3">
                     <div class="flex gap-2">
-                        <button class="stance-btn active flex-1 py-2 rounded border border-gray-600 bg-gray-700 hover:bg-gray-600 transition text-sm" data-stance="neutral">🤔 中立 / 質問</button>
-                        <button class="stance-btn flex-1 py-2 rounded border border-gray-600 hover:bg-green-600/30 hover:border-green-500 transition text-sm" data-stance="agree">👍 賛成 / 肯定</button>
-                        <button class="stance-btn flex-1 py-2 rounded border border-gray-600 hover:bg-red-600/30 hover:border-red-500 transition text-sm" data-stance="disagree">👎 反対 / 否定</button>
+                        <button class="stance-btn active flex-1 py-2 rounded-full border border-blue-300 bg-blue-100 text-blue-700 font-bold transition text-sm shadow-sm hover:shadow-md" data-stance="neutral">🤔 なやむ / 質問</button>
+                        <button class="stance-btn flex-1 py-2 rounded-full border border-pink-200 bg-white text-gray-600 font-bold transition text-sm shadow-sm hover:shadow-md hover:bg-green-50" data-stance="agree">✨ さんせい / 肯定</button>
+                        <button class="stance-btn flex-1 py-2 rounded-full border border-pink-200 bg-white text-gray-600 font-bold transition text-sm shadow-sm hover:shadow-md hover:bg-red-50" data-stance="disagree">💦 はんたい / 否定</button>
                     </div>
                     <div class="flex gap-2 relative">
-                        <textarea id="message-input" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none" rows="2" placeholder="あなたの意見を世界に発信しよう..."></textarea>
-                        <button id="send-btn" class="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-6 font-bold transition flex items-center justify-center shrink-0">
-                            <i class="fa-solid fa-paper-plane mr-2"></i>発言
+                        <textarea id="message-input" class="w-full bg-white border-2 border-pink-200 rounded-2xl p-3 text-sm focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 resize-none shadow-inner text-gray-700 font-medium" rows="2" placeholder="あなたの意見を可愛く発信しよう..."></textarea>
+                        <button id="send-btn" class="bg-pink-400 hover:bg-pink-500 text-white rounded-2xl px-6 font-bold transition flex items-center justify-center shrink-0 shadow-md">
+                            <i class="fa-solid fa-paper-plane mr-2"></i>おくる
                         </button>
                     </div>
                 </div>
@@ -155,7 +158,6 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // === クラウド通信のセットアップ ===
         let app, auth, db;
         let isOnline = false;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -163,88 +165,95 @@
         let currentUser = null;
         let unsubscribeChat = null;
         
-        // ランダムなユーザープロフィールを生成
         const countries = ['🇯🇵', '🇺🇸', '🇬🇧', '🇫🇷', '🇩🇪', '🇮🇹', '🇨🇦', '🇦🇺', '🇧🇷', '🇮🇳', '🇰🇷', '🇸🇪'];
         const userCountry = countries[Math.floor(Math.random() * countries.length)];
-        const userName = "User_" + Math.floor(Math.random() * 10000);
+        const userName = "あなた";
 
-        // === ゲームデータ ===
+        // === カフェ風のゲームデータ ===
         const topics = [
             {
-                id: 'ai-jobs',
-                category: 'テクノロジー',
-                title: 'AIの進化により、今後10年で人類の仕事の半分が消滅する？',
-                summary: '最新のレポートによると、生成AIの進化により世界規模で大規模な雇用シフトが起きる可能性が指摘されています。ベーシックインカムの導入を含め、社会はこれにどう備えるべきでしょうか？',
-                references: [
-                    { title: "World Economic Forum: The Future of Jobs Report", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2023/" },
-                    { title: "MIT Tech Review: AI and the Workforce", url: "https://www.technologyreview.com/topic/artificial-intelligence/" },
-                    { title: "UNESCO: Recommendation on the Ethics of AI", url: "https://www.unesco.org/en/artificial-intelligence/recommendation-ethics" }
-                ]
+                id: 'kinoko-takenoko',
+                category: 'おかし・スイーツ',
+                title: 'きのこの山 vs たけのこの里、永遠のライバル対決！',
+                summary: 'チョコレートとビスケットの絶妙なハーモニー。あなたはどっち派ですか？それぞれの魅力を存分に語り合いましょう！',
+                references: [{ title: "きのこの山・たけのこの里 公式サイト", url: "https://www.meiji.co.jp/sweets/chocolate/kinotake/" }]
             },
             {
-                id: 'four-day-week',
-                category: '社会・経済',
-                title: '「週休3日制（週4日勤務）」は世界標準になるべきか？',
-                summary: 'ヨーロッパの一部企業で導入が進む週休3日制。生産性が向上したという報告がある一方で、サービス業などでは導入が難しいという声もあります。',
-                references: [
-                    { title: "4 Day Week Global: Pilot Program Results", url: "https://www.4dayweek.com/" },
-                    { title: "Harvard Business Review: The Case for a 4-Day Workweek", url: "https://hbr.org/2021/09/what-does-a-4-day-workweek-mean-for-the-future-of-work" },
-                    { title: "ILO: Working Time and Work-Life Balance", url: "https://www.ilo.org/global/topics/working-conditions/work-time/lang--en/index.htm" }
-                ]
+                id: 'fried-egg',
+                category: '朝ごはん',
+                title: '目玉焼きには何をつける？（お醤油？ソース？お塩？）',
+                summary: '朝ごはんの定番、目玉焼き。かける調味料で好みが大きく分かれますよね。あなたの最高の組み合わせを教えて！',
+                references: []
             },
             {
-                id: 'space-vs-earth',
-                category: '科学・環境',
-                title: '火星移住計画よりも、地球の気候変動対策に全予算を注ぐべきか？',
-                summary: '莫大な予算が投じられている宇宙開発。しかし、足元の地球では異常気象や環境破壊が進行しています。人類の優先順位はどちらにあるべきでしょうか。',
-                references: [
-                    { title: "UN Environment Programme: Global Climate Report", url: "https://www.unep.org/" },
-                    { title: "NASA: Climate Change and Space Exploration", url: "https://climate.nasa.gov/" },
-                    { title: "Nature: Space exploration vs. Earth observation", url: "https://www.nature.com/" }
-                ]
+                id: 'time-machine',
+                category: 'ふしぎ',
+                title: 'タイムマシンがあったら、過去に行く？未来に行く？',
+                summary: 'もしも一度だけタイムマシンが使えるとしたら。歴史的な瞬間を見に行く？それとも自分の未来を覗いてみる？',
+                references: []
             },
             {
-                id: 'autonomous-vehicles',
-                category: 'テクノロジー・倫理',
-                title: '完全自動運転車は、事故の際に「乗客」と「歩行者」どちらの命を優先すべきか？',
-                summary: 'いわゆる「トロッコ問題」が自動運転車のプログラムにおいて現実の課題となっています。AIの判断基準は誰の命を優先するように設計されるべきでしょうか。',
-                references: [
-                    { title: "MIT Moral Machine: Human Perspectives on Machine Ethics", url: "https://www.moralmachine.net/" },
-                    { title: "IEEE: Ethics of Autonomous Vehicles", url: "https://ethicsinaction.ieee.org/" },
-                    { title: "Stanford HAI: AI and Human Values", url: "https://hai.stanford.edu/" }
-                ]
+                id: 'dog-vs-cat',
+                category: 'どうぶつ',
+                title: '犬派？猫派？どっちの魅力も語り尽くそう！',
+                summary: '人懐っこくて元気なワンちゃん、マイペースでツンデレなネコちゃん。どっちも可愛いけれど、あえて選ぶなら？',
+                references: []
             },
             {
-                id: 'universal-basic-income',
-                category: '社会・経済',
-                title: 'すべての国民に無条件で現金を配る「ベーシックインカム(UBI)」は社会を救うか？',
-                summary: '貧困の撲滅やAIによる失業対策としてUBIが注目されています。労働意欲の低下や財源の懸念がある中、導入に賛成ですか？反対ですか？',
-                references: [
-                    { title: "Stanford Basic Income Lab", url: "https://basicincome.stanford.edu/" },
-                    { title: "World Bank: Exploring Universal Basic Income", url: "https://www.worldbank.org/en/topic/socialprotection/publication/exploring-universal-basic-income" },
-                    { title: "IMF: Basic Income vs. Targeted Transfers", url: "https://www.imf.org/en/Publications/FM/Issues/2017/10/05/fiscal-monitor-october-2017" }
-                ]
+                id: 'summer-winter',
+                category: 'きせつ',
+                title: '夏と冬、ずっと過ごすならどっちの季節がいい？',
+                summary: '海や花火が楽しい夏と、雪やあったかいお鍋が美味しい冬。一年中その季節だったら、どっちが幸せ？',
+                references: []
             },
             {
-                id: 'genetic-engineering',
-                category: '科学・医療',
-                title: '病気の予防や能力向上のため、人間の受精卵に「遺伝子編集(CRISPR)」を行うべきか？',
-                summary: '遺伝子疾患を根絶できる可能性がある一方で、「デザイナーベビー」の誕生や倫理的、社会的な不平等の拡大が懸念されています。どこまで許容されるべきでしょうか。',
-                references: [
-                    { title: "WHO: Human Genome Editing", url: "https://www.who.int/health-topics/human-genome-editing" },
-                    { title: "Nature: CRISPR and ethical implications", url: "https://www.nature.com/articles/d41586-020-00272-5" },
-                    { title: "NIH: Ethics of Gene Editing", url: "https://www.nih.gov/about-nih/who-we-are/nih-director/statements/statement-nih-funding-research-using-gene-editing-technologies-human-embryos" }
-                ]
+                id: 'pancake-syrup',
+                category: 'おかし・スイーツ',
+                title: 'パンケーキにかけるなら、メイプルシロップ？はちみつ？',
+                summary: 'ふかふかのパンケーキ。とろ〜りかけるなら、香ばしいメイプルシロップか、甘くて優しいはちみつか、迷っちゃうね！',
+                references: []
             }
         ];
 
-        // === 状態管理 ===
+        // === BOTのセリフデータ ===
+        const botResponses = {
+            'kinoko-takenoko': [
+                { stance: 'agree', name: 'きのこ大好きさん', text: 'きのこの山の、チョコだけ先に食べるのが好きなんだよね〜🍫✨' },
+                { stance: 'disagree', name: 'たけのこ過激派', text: 'クッキー生地とチョコの一体感！たけのこの里こそ至高！💦' },
+                { stance: 'neutral', name: '平和主義者', text: 'どっちも美味しいから、交互に食べるのが一番幸せだよ🌸' }
+            ],
+            'fried-egg': [
+                { stance: 'agree', name: 'お醤油派', text: 'やっぱり日本人ならお醤油でしょ！ご飯にぴったり！✨' },
+                { stance: 'disagree', name: 'ソース派', text: '目玉焼きには絶対ソース！あの甘辛さがたまらない！💦' },
+                { stance: 'neutral', name: '塩コショウ派', text: 'シンプルに塩コショウが一番、卵の味が引き立つよ🍳' }
+            ],
+            'time-machine': [
+                { stance: 'agree', name: '歴史ロマン', text: '恐竜がいた時代をこの目で見てみたいな〜！🦖✨' },
+                { stance: 'disagree', name: '未来志向', text: '100年後の世界で、空飛ぶ車に乗ってみたい！🚗💨💦' },
+                { stance: 'neutral', name: '現在が一番', text: '過去も未来も気になるけど、やっぱり今の生活が一番落ち着くかも🤔' }
+            ],
+            'dog-vs-cat': [
+                { stance: 'agree', name: 'ワンコ愛好家', text: '帰ってきたらしっぽ振って喜んでくれる犬が可愛すぎる！🐶✨' },
+                { stance: 'disagree', name: 'ネコ下僕', text: 'あのツンデレ具合がたまらない…猫様には一生勝てない🐈💦' },
+                { stance: 'neutral', name: '動物全般好き', text: 'どっちも可愛くて選べない！もふもふできれば何でもいい！🐾' }
+            ],
+            'summer-winter': [
+                { stance: 'agree', name: '夏満喫マン', text: '海！スイカ！花火！夏は楽しいイベントがいっぱい！🍉✨' },
+                { stance: 'disagree', name: '冬ごもり', text: 'こたつでぬくぬくしながらアイスを食べるのが最高の贅沢…❄️💦' },
+                { stance: 'neutral', name: '春・秋派', text: '暑すぎず寒すぎない、春か秋がずっと続けばいいのにな〜🌸🍁' }
+            ],
+            'pancake-syrup': [
+                { stance: 'agree', name: 'メイプル信者', text: 'あの独特の香ばしい風味！パンケーキにはメイプル一択！🥞✨' },
+                { stance: 'disagree', name: 'はちみつラバー', text: '自然な甘さのはちみつが、パンケーキを優しく包み込んでくれる🍯💦' },
+                { stance: 'neutral', name: 'バターのみ', text: 'シロップなしで、バターの塩気だけで食べるのも美味しいよ！🧈' }
+            ]
+        };
+
         let currentTopicId = topics[0].id;
         let userScore = 0;
         let currentStance = 'neutral';
-        const chats = {}; // リアルタイムで取得したチャットデータ
+        const chats = {}; 
 
-        // === DOM要素 ===
         const topicListEl = document.getElementById('topic-list');
         const chatContainer = document.getElementById('chat-container');
         const messageInput = document.getElementById('message-input');
@@ -253,7 +262,6 @@
         const scoreDisplay = document.getElementById('score-display');
         const rankDisplay = document.getElementById('rank-display');
 
-        // === 認証と初期化 ===
         async function initNetwork() {
             try {
                 if (typeof __firebase_config !== 'undefined' && __firebase_config) {
@@ -268,18 +276,17 @@
                         await signInAnonymously(auth);
                     }
                     isOnline = true;
-                    showToast("グローバルネットワークに接続しました");
+                    showToast("みんなのカフェに接続しました☕️");
                     
                     onAuthStateChanged(auth, (user) => {
                         currentUser = user;
                         if (user && isOnline) {
-                            selectTopic(currentTopicId); // 認証後にトピックのデータを取得開始
+                            selectTopic(currentTopicId); 
                         }
                     });
                 } else {
-                    // Firebase設定がない環境（ご自身のホームページ等）での動作フォールバック
                     console.log("Firebase config not found. Running in local mode.");
-                    showToast("ローカルモードで起動しました", "info");
+                    showToast("ローカルモードで開店しました🍰", "info");
                     isOnline = false;
                 }
             } catch (error) {
@@ -291,11 +298,8 @@
 
         function init() {
             renderTopicList();
-            
-            // 初回トピック選択（オフライン時または初期表示用）
             selectTopic(topics[0].id);
 
-            // イベントリスナー
             sendBtn.addEventListener('click', handleSendMessage);
             messageInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -307,23 +311,22 @@
             stanceBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     stanceBtns.forEach(b => {
-                        b.classList.remove('bg-gray-700', 'border-blue-500', 'border-green-500', 'border-red-500');
-                        b.classList.add('border-gray-600');
+                        b.classList.remove('bg-blue-100', 'border-blue-300', 'text-blue-700', 'bg-green-100', 'border-green-300', 'text-green-700', 'bg-red-100', 'border-red-300', 'text-red-700');
+                        b.classList.add('bg-white', 'border-pink-200', 'text-gray-600');
                     });
                     currentStance = e.target.dataset.stance;
-                    e.target.classList.remove('border-gray-600');
-                    if (currentStance === 'neutral') e.target.classList.add('bg-gray-700', 'border-blue-500');
-                    if (currentStance === 'agree') e.target.classList.add('bg-green-600/30', 'border-green-500');
-                    if (currentStance === 'disagree') e.target.classList.add('bg-red-600/30', 'border-red-500');
+                    e.target.classList.remove('bg-white', 'border-pink-200', 'text-gray-600');
+                    if (currentStance === 'neutral') e.target.classList.add('bg-blue-100', 'border-blue-300', 'text-blue-700');
+                    if (currentStance === 'agree') e.target.classList.add('bg-green-100', 'border-green-300', 'text-green-700');
+                    if (currentStance === 'disagree') e.target.classList.add('bg-red-100', 'border-red-300', 'text-red-700');
                 });
             });
         }
 
-        // === リアルタイムデータの購読 ===
         function subscribeToTopic(topicId) {
             if (!isOnline || !db) return;
             if (unsubscribeChat) {
-                unsubscribeChat(); // 以前のトピックの監視を解除
+                unsubscribeChat(); 
             }
             if (!currentUser) return;
 
@@ -334,10 +337,7 @@
                 snapshot.forEach(doc => {
                     msgs.push({ id: doc.id, ...doc.data() });
                 });
-                
-                // タイムスタンプ順にソート
                 msgs.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-                
                 chats[topicId] = msgs;
                 renderMessages();
             }, (error) => {
@@ -345,18 +345,17 @@
             });
         }
 
-        // === UI更新関数 ===
         function renderTopicList() {
             topicListEl.innerHTML = '';
             topics.forEach(topic => {
                 const isActive = topic.id === currentTopicId;
                 const div = document.createElement('div');
-                div.className = `p-3 rounded-lg cursor-pointer transition border ${isActive ? 'bg-blue-900/30 border-blue-500' : 'bg-gray-800 border-gray-700 hover:bg-gray-750 hover:border-gray-500'}`;
+                div.className = `p-4 rounded-2xl cursor-pointer transition border-2 ${isActive ? 'bg-pink-100 border-pink-400 shadow-md transform scale-[1.02]' : 'bg-white border-pink-100 hover:bg-pink-50 hover:border-pink-300 shadow-sm'}`;
                 div.onclick = () => selectTopic(topic.id);
                 div.innerHTML = `
-                    <div class="text-xs text-blue-400 mb-1">${topic.category}</div>
-                    <div class="text-sm font-bold text-gray-200 line-clamp-2">${topic.title}</div>
-                    <div class="text-xs text-gray-500 mt-2 flex justify-between">
+                    <div class="text-xs text-pink-500 mb-1 font-bold">${topic.category}</div>
+                    <div class="text-sm font-bold text-gray-700 line-clamp-2">${topic.title}</div>
+                    <div class="text-xs text-pink-400 mt-2 flex justify-between font-bold">
                         <span><i class="fa-solid fa-users"></i> ${isOnline ? 'Live' : 'Local'}</span>
                     </div>
                 `;
@@ -368,21 +367,21 @@
             currentTopicId = id;
             const topic = topics.find(t => t.id === id);
             
-            // ヘッダー更新
             document.getElementById('topic-category').textContent = topic.category;
             document.getElementById('topic-title').textContent = topic.title;
             document.getElementById('topic-summary').textContent = topic.summary;
 
-            // 資料リスト更新
             const refContainer = document.getElementById('topic-references');
             if (refContainer) {
                 refContainer.innerHTML = '';
-                if (topic.references) {
+                if (topic.references && topic.references.length > 0) {
                     topic.references.forEach(ref => {
                         const li = document.createElement('li');
-                        li.innerHTML = `<a href="${ref.url}" target="_blank" class="text-blue-400 hover:text-blue-300 transition flex items-center"><i class="fa-solid fa-external-link-alt text-xs w-4"></i><span class="hover:underline">${ref.title}</span></a>`;
+                        li.innerHTML = `<a href="${ref.url}" target="_blank" class="text-yellow-600 hover:text-yellow-500 transition flex items-center font-bold"><i class="fa-solid fa-link text-xs w-5"></i><span class="hover:underline">${ref.title}</span></a>`;
                         refContainer.appendChild(li);
                     });
+                } else {
+                    refContainer.innerHTML = '<li class="text-xs text-gray-500">参考サイトは特にありません。自由に語りましょう！</li>';
                 }
             }
 
@@ -391,7 +390,6 @@
             if (isOnline) {
                 subscribeToTopic(id);
             } else {
-                // ローカルモードの場合は保存されている履歴を表示
                 if (!chats[id]) chats[id] = [];
                 renderMessages();
             }
@@ -400,48 +398,48 @@
         function renderMessages() {
             chatContainer.innerHTML = '';
             
-            // システムメッセージを先頭に追加
             const currentTopic = topics.find(t => t.id === currentTopicId);
             const sysEl = document.createElement('div');
             sysEl.className = 'message-enter flex justify-center my-4';
-            sysEl.innerHTML = `<span class="bg-gray-800 text-gray-400 text-xs px-3 py-1 rounded-full">🗣️ 「${currentTopic.title}」のディベートが開始されました。</span>`;
+            sysEl.innerHTML = `<span class="bg-pink-100 text-pink-600 text-xs px-4 py-2 rounded-full font-bold shadow-sm">🌸 「${currentTopic.title}」のおしゃべりが始まったよ！</span>`;
             chatContainer.appendChild(sysEl);
 
             const messages = chats[currentTopicId] || [];
-            const stanceIcons = { neutral: '🤔', agree: '👍', disagree: '👎' };
+            const stanceIcons = { neutral: '🤔', agree: '✨', disagree: '💦' };
             
             messages.forEach(msg => {
-                const isMine = msg.userId === currentUser?.uid;
+                // "あなた" または "You" として表示する条件
+                const isMine = msg.userId === currentUser?.uid || msg.userId.startsWith('local_user_');
                 const msgEl = document.createElement('div');
-                msgEl.className = 'message-enter flex gap-4 w-full ' + (isMine ? 'justify-end' : 'justify-start');
+                msgEl.className = 'message-enter flex gap-3 w-full ' + (isMine ? 'justify-end' : 'justify-start');
 
                 if (isMine) {
                     msgEl.innerHTML = `
                         <div class="max-w-[80%] flex flex-col items-end gap-1">
-                            <div class="flex items-center gap-2 text-xs text-gray-400">
-                                <span class="text-blue-400 font-bold">You (${msg.country || userCountry})</span>
-                                <span>${stanceIcons[msg.stance] || '🤔'}</span>
+                            <div class="flex items-center gap-2 text-xs font-bold text-pink-400">
+                                <span>${msg.name} (${msg.country || userCountry})</span>
+                                <span class="bg-white rounded-full px-1 shadow-sm">${stanceIcons[msg.stance] || '🤔'}</span>
                             </div>
-                            <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-sm shadow-md text-sm leading-relaxed whitespace-pre-wrap">${msg.text}</div>
-                            <div class="text-xs text-gray-500 flex items-center gap-1">
+                            <div class="bg-pink-400 text-white p-3 rounded-2xl rounded-tr-sm shadow-md text-sm leading-relaxed whitespace-pre-wrap font-medium">${msg.text}</div>
+                            <div class="text-xs text-pink-400 flex items-center gap-1 font-bold">
                                 <i class="fa-solid fa-heart text-pink-500"></i> ${msg.likes || 0}
                             </div>
                         </div>
                     `;
                 } else {
                     msgEl.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-lg shrink-0 border border-gray-600 shadow-sm">
-                            ${msg.country || '🌍'}
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl shrink-0 border-2 border-pink-200 shadow-sm">
+                            ${msg.country || '🤖'}
                         </div>
                         <div class="max-w-[80%] flex flex-col items-start gap-1">
-                            <div class="text-xs text-gray-400 font-bold flex items-center gap-2">
+                            <div class="text-xs font-bold text-gray-500 flex items-center gap-2">
                                 ${msg.name || 'Anonymous'}
-                                <span>${stanceIcons[msg.stance] || '🤔'}</span>
+                                <span class="bg-white rounded-full px-1 shadow-sm border border-gray-100">${stanceIcons[msg.stance] || '🤔'}</span>
                             </div>
-                            <div class="bg-gray-800 border border-gray-700 text-gray-200 p-3 rounded-2xl rounded-tl-sm shadow-md text-sm leading-relaxed whitespace-pre-wrap">${msg.text}</div>
-                            <div class="text-xs text-gray-500 flex items-center gap-3">
-                                <button class="hover:text-pink-400 transition flex items-center gap-1" onclick="likeMessage('${msg.id}', ${msg.likes || 0})">
-                                    <i class="fa-regular fa-heart"></i> ${msg.likes || 0}
+                            <div class="bg-white border-2 border-pink-100 text-gray-700 p-3 rounded-2xl rounded-tl-sm shadow-sm text-sm leading-relaxed whitespace-pre-wrap font-medium">${msg.text}</div>
+                            <div class="text-xs text-gray-400 flex items-center gap-3 font-bold">
+                                <button class="hover:text-pink-400 transition flex items-center gap-1 bg-white px-2 py-1 rounded-full shadow-sm border border-gray-100" onclick="likeMessage('${msg.id}', ${msg.likes || 0})">
+                                    <i class="fa-solid fa-heart text-pink-300"></i> ${msg.likes || 0}
                                 </button>
                             </div>
                         </div>
@@ -453,15 +451,51 @@
             scrollToBottom();
         }
 
-        // === アクション ===
+        // === BOTの返信ロジック ===
+        function triggerBotResponse() {
+            const indicator = document.getElementById('typing-indicator');
+            indicator.classList.remove('hidden');
+            scrollToBottom();
+
+            // 1.5秒 〜 3秒後にBOTが返信する
+            setTimeout(() => {
+                indicator.classList.add('hidden');
+                
+                // 現在のトピックのBOT返信リストを取得（なければデフォルト）
+                const responses = botResponses[currentTopicId] || [
+                    { stance: 'neutral', name: 'カフェのマスター', text: 'なるほど〜！そういう考え方もあるね！🌸' }
+                ];
+                
+                // ランダムに1つ選ぶ
+                const randomResp = responses[Math.floor(Math.random() * responses.length)];
+                
+                const botMsg = {
+                    id: 'bot_' + Date.now(),
+                    text: randomResp.text,
+                    stance: randomResp.stance,
+                    userId: 'bot_user',
+                    name: randomResp.name,
+                    country: '🤖',
+                    timestamp: Date.now(),
+                    likes: 0
+                };
+
+                // オンラインの場合はFirestoreに書き込むと他の人にも見えてしまうため、
+                // 今回は「自分専用のBOT」としてローカルの配列にのみ追加して表示させる
+                if (!chats[currentTopicId]) chats[currentTopicId] = [];
+                chats[currentTopicId].push(botMsg);
+                renderMessages();
+                
+            }, 1500 + Math.random() * 1500);
+        }
+
         async function handleSendMessage() {
             const text = messageInput.value.trim();
             if (!text) return;
-            // オンライン環境で未ログインの場合は処理しない
             if (isOnline && !currentUser) return;
 
             const messageData = {
-                id: 'msg_' + Date.now(), // ローカルモード用のID
+                id: 'msg_' + Date.now(), 
                 text: text,
                 stance: currentStance,
                 userId: currentUser?.uid || 'local_user_' + Date.now(),
@@ -471,60 +505,63 @@
                 likes: 0
             };
 
-            messageInput.value = ''; // すぐにクリアして体感速度を上げる
+            messageInput.value = ''; 
             
+            // 自分のメッセージを送信/保存
             if (isOnline && db) {
                 try {
                     const messagesRef = collection(db, 'artifacts', appId, 'public', 'data', `messages_${currentTopicId}`);
                     await addDoc(messagesRef, messageData);
                     
-                    // スコアアップ処理
                     const earnedScore = Math.floor(text.length * 0.5) + 10; 
                     addScore(earnedScore);
-                    showToast(`発言を世界に送信しました！ 影響力 +${earnedScore} INF`);
+                    showToast(`メッセージを送ったよ！ スマイル +${earnedScore} ✨`);
                 } catch (error) {
                     console.error("送信エラー:", error);
-                    showToast("メッセージの送信に失敗しました", "error");
+                    showToast("メッセージが送れなかったみたい💦", "error");
                 }
             } else {
-                // ローカルモード時の処理
                 if (!chats[currentTopicId]) chats[currentTopicId] = [];
                 chats[currentTopicId].push(messageData);
                 renderMessages();
                 
                 const earnedScore = Math.floor(text.length * 0.5) + 10; 
                 addScore(earnedScore);
-                showToast(`発言しました！（ローカル） 影響力 +${earnedScore} INF`);
+                showToast(`メッセージを送ったよ！（ローカル） スマイル +${earnedScore} ✨`);
             }
+
+            // ★ 自分が発言した後にBOTを反応させる
+            triggerBotResponse();
         }
 
-        // グローバルスコープに関数を公開（onclick用）
         window.likeMessage = async function(messageId, currentLikes) {
-            if (isOnline && db && currentUser) {
-                try {
-                    const msgRef = doc(db, 'artifacts', appId, 'public', 'data', `messages_${currentTopicId}`, messageId);
-                    await updateDoc(msgRef, {
-                        likes: currentLikes + 1
-                    });
-                    addScore(5); // いいねしてもスコアが少し上がる
-                    showToast("共感しました！");
-                } catch (error) {
-                    console.error("いいねエラー:", error);
-                }
-            } else if (!isOnline) {
-                // ローカルモード時の処理
+            // BOTへの「いいね」はローカルで処理する
+            if (messageId.startsWith('bot_') || !isOnline) {
                 const msgs = chats[currentTopicId] || [];
                 const targetMsg = msgs.find(m => m.id === messageId);
                 if (targetMsg) {
                     targetMsg.likes = (targetMsg.likes || 0) + 1;
                     renderMessages();
                     addScore(5);
-                    showToast("共感しました！（ローカル）");
+                    showToast("共感したよ！");
                 }
+                return;
             }
+
+            if (isOnline && db && currentUser) {
+                try {
+                    const msgRef = doc(db, 'artifacts', appId, 'public', 'data', `messages_${currentTopicId}`, messageId);
+                    await updateDoc(msgRef, {
+                        likes: currentLikes + 1
+                    });
+                    addScore(5); 
+                    showToast("共感したよ！");
+                } catch (error) {
+                    console.error("いいねエラー:", error);
+                }
+            } 
         };
 
-        // === ユーティリティ ===
         function scrollToBottom() {
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
@@ -532,20 +569,20 @@
         function addScore(points) {
             userScore += points;
             
-            scoreDisplay.textContent = `${userScore} INF`;
+            scoreDisplay.textContent = `${userScore} ✨`;
             scoreDisplay.classList.add('text-white', 'scale-110');
             setTimeout(() => {
                 scoreDisplay.classList.remove('text-white', 'scale-110');
             }, 300);
 
-            let newRank = "ルーキー";
-            if (userScore > 500) newRank = "グローバルインフルエンサー";
-            else if (userScore > 200) newRank = "オピニオンリーダー";
-            else if (userScore > 100) newRank = "ディベーター";
+            let newRank = "おためしさん";
+            if (userScore > 500) newRank = "カフェのアイドル";
+            else if (userScore > 200) newRank = "常連さん";
+            else if (userScore > 100) newRank = "おしゃべり上手";
 
             if (rankDisplay.textContent !== newRank) {
                 rankDisplay.textContent = newRank;
-                showToast(`🎉 ランクアップ！ [${newRank}] になりました！`);
+                showToast(`🎉 クラスチェンジ！ [${newRank}] になりました！`);
             }
         }
 
@@ -554,11 +591,11 @@
             const toast = document.createElement('div');
             toast.className = 'toast flex items-center gap-3';
             if (type === 'info') {
-                toast.style.background = 'rgba(59, 130, 246, 0.9)'; 
+                toast.style.background = 'rgba(167, 139, 250, 0.95)'; // パステルパープル
             } else if (type === 'error') {
-                toast.style.background = 'rgba(239, 68, 68, 0.9)';
+                toast.style.background = 'rgba(251, 113, 133, 0.95)'; // ローズレッド
             }
-            toast.innerHTML = `<i class="fa-solid fa-bell"></i> <span>${message}</span>`;
+            toast.innerHTML = `<i class="fa-solid fa-bell text-yellow-300"></i> <span>${message}</span>`;
             container.appendChild(toast);
 
             setTimeout(() => {
@@ -566,7 +603,6 @@
             }, 3000);
         }
 
-        // 実行開始 (ネットワーク初期化後にUI初期化)
         initNetwork().then(init);
 
     </script>
